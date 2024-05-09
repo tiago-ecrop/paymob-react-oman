@@ -10,7 +10,7 @@
   <img src="https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square" alt="License">
 </p>
 
-Paymob React 💳 is a package designed to simplify online payment integration with Paymob services in React applications. This package provides easy-to-use functions for starting card and wallet payment processes.
+Paymob React 💳 is a lightweight package designed to streamline online payment integration with Paymob services. It's built using React and TypeScript, providing a seamless development experience for incorporating secure payment functionality into your web applications.
 
 ## Installation 🔨
 
