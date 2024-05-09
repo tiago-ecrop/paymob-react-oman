@@ -23,15 +23,9 @@ export const createOrder = async ({
   name,
   description,
   quantity,
-  firstName,
-  lastName,
   email,
   phoneNumber,
   extraDescription,
-  city,
-  floor,
-  building,
-  postalCode,
   address,
 }: {
   token: string;
@@ -40,15 +34,9 @@ export const createOrder = async ({
   name: string;
   description: string;
   quantity: string;
-  firstName: string;
-  lastName: string;
   email: string;
   phoneNumber: string;
   extraDescription: string;
-  city: string;
-  floor: string;
-  building: string;
-  postalCode: string;
   address: Address;
 }): Promise<string> => {
   try {
@@ -57,6 +45,7 @@ export const createOrder = async ({
       delivery_needed: "false",
       amount_cents: (amount * 100).toString(),
       currency: currency,
+      merchant_order_id: Math.random().toString(36).substring(7),
       items: [
         {
           name: name,
@@ -66,16 +55,20 @@ export const createOrder = async ({
         },
       ],
       shipping_data: {
-        first_name: firstName,
-        last_name: lastName,
+        ...address,
         email: email,
         phone_number: phoneNumber,
         extra_description: extraDescription,
-        building: building,
-        city: city,
-        floor: floor,
-        postal_code: postalCode,
-        address: address,
+      },
+      shipping_details: {
+        notes: "test",
+        number_of_packages: 1,
+        weight: 1,
+        weight_unit: "Kilogram",
+        length: 1,
+        width: 1,
+        height: 1,
+        contents: "product of some sorts",
       },
     };
 
@@ -101,23 +94,21 @@ export const getFinalToken = async ({
   orderId,
   amount,
   currency,
-  firstName,
-  lastName,
   email,
   phoneNumber,
   cardIntegrationId,
   address,
+  city,
 }: {
   token: string;
   orderId: string;
   amount: number;
   currency: string;
-  firstName: string;
-  lastName: string;
   email: string;
   phoneNumber: string;
   cardIntegrationId: string;
   address: Address;
+  city: string;
 }): Promise<string> => {
   try {
     const data = {
@@ -126,14 +117,15 @@ export const getFinalToken = async ({
       expiration: 3600,
       order_id: orderId,
       billing_data: {
-        first_name: firstName,
-        last_name: lastName,
+        ...address,
         email: email,
         phone_number: phoneNumber,
-        address: address,
+        shipping_method: "PKG", // Assuming this is a default value
+        city: city, // Add city to billing_data
       },
       currency: currency,
       integration_id: cardIntegrationId,
+      lock_order_when_paid: "false", // This property indicates whether to lock the order when paid
     };
 
     const response = await fetch(

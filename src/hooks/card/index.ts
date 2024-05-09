@@ -11,15 +11,13 @@ export const startCardProcess = async ({
   name,
   description,
   quantity,
-  firstName,
-  lastName,
   email,
   phoneNumber,
   extraDescription,
   city,
-  floor,
-  building,
-  postalCode,
+  // floor,
+  // building,
+  // postalCode,
   paymobApiKey,
   cardIntegrationId,
   iframeId,
@@ -30,8 +28,6 @@ export const startCardProcess = async ({
   name: string;
   description: string;
   quantity: string;
-  firstName: string;
-  lastName: string;
   email: string;
   phoneNumber: string;
   extraDescription: string;
@@ -55,15 +51,9 @@ export const startCardProcess = async ({
         name,
         description,
         quantity,
-        firstName,
-        lastName,
         email,
         phoneNumber,
         extraDescription,
-        city,
-        floor,
-        building,
-        postalCode,
         address, // Pass the address object directly
       });
 
@@ -73,12 +63,11 @@ export const startCardProcess = async ({
           orderId,
           amount,
           currency,
-          firstName,
-          lastName,
           email,
           phoneNumber,
           cardIntegrationId,
           address, // Pass the address object directly
+          city, // Include the city parameter
         });
 
         if (finalToken) {

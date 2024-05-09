@@ -1,4 +1,3 @@
-// startWalletProcess.ts
 import {
   getAuthToken,
   createOrder,
@@ -6,81 +5,35 @@ import {
 } from "@/utils/payment-utils";
 import { Address } from "@/types";
 
-export const walletPayment = async (
-  // iframeId: string,
-  finalToken: string,
-  mobileNumber: string
-): Promise<void> => {
-  try {
-    const response = await fetch(
-      "https://accept.paymob.com/api/acceptance/payments/pay",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          source: {
-            identifier: mobileNumber,
-            subtype: "WALLET",
-          },
-          payment_token: finalToken,
-        }),
-      }
-    );
-
-    const responseData = await response.json();
-
-    if (responseData.redirect_url) {
-      window.location.href = responseData.redirect_url;
-    }
-  } catch (error) {
-    console.error("Error redirecting to wallet payment:", error);
-    throw error;
-  }
-};
-
-interface WalletProcessArgs {
-  amount: number;
-  currency: string;
-  name: string;
-  description: string;
-  quantity: string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  phoneNumber: string;
-  extraDescription: string;
-  city: string;
-  floor: string;
-  building: string;
-  postalCode: string;
-  paymobApiKey: string;
-  cardIntegrationId: string;
-  iframeId: string;
-  address: Address;
-  mobileNumber: string;
-}
-
-export const startWalletProcess = async ({
+export const startCardProcess = async ({
   amount,
   currency,
   name,
   description,
   quantity,
-  firstName,
-  lastName,
   email,
   phoneNumber,
   extraDescription,
-  city,
-  floor,
-  building,
-  postalCode,
+  address,
   paymobApiKey,
   cardIntegrationId,
-  // iframeId,
-  address,
-  mobileNumber,
-}: WalletProcessArgs): Promise<void> => {
+  iframeId,
+  city,
+}: {
+  amount: number;
+  currency: string;
+  name: string;
+  description: string;
+  quantity: string;
+  email: string;
+  phoneNumber: string;
+  extraDescription: string;
+  address: Address;
+  paymobApiKey: string;
+  cardIntegrationId: string;
+  iframeId: string;
+  city: string;
+}): Promise<void> => {
   try {
     const token = await getAuthToken(paymobApiKey);
 
@@ -92,15 +45,9 @@ export const startWalletProcess = async ({
         name,
         description,
         quantity,
-        firstName,
-        lastName,
         email,
         phoneNumber,
         extraDescription,
-        city,
-        floor,
-        building,
-        postalCode,
         address,
       });
 
@@ -110,22 +57,33 @@ export const startWalletProcess = async ({
           orderId,
           amount,
           currency,
-          firstName,
-          lastName,
           email,
           phoneNumber,
           cardIntegrationId,
-          address,
+          address, // Pass the address object directly
+          city, // Include the city parameter
         });
 
         if (finalToken) {
-          // await walletPayment(iframeId, finalToken, mobileNumber);
-          await walletPayment(finalToken, mobileNumber);
+          cardPayment(iframeId, finalToken);
         }
       }
     }
   } catch (error) {
-    console.error("Error starting wallet payment process:", error);
+    console.error("Error starting card payment process:", error);
+    throw error;
+  }
+};
+
+export const cardPayment = async (
+  iframeId: string,
+  finalToken: string
+): Promise<void> => {
+  try {
+    const iframeURL = `https://accept.paymob.com/api/acceptance/iframes/${iframeId}?payment_token=${finalToken}`;
+    window.location.href = iframeURL;
+  } catch (error) {
+    console.error("Error redirecting to card payment:", error);
     throw error;
   }
 };
