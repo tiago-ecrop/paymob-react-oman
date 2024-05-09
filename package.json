@@ -17,9 +17,9 @@
   "files": [
     "dist"
   ],
-  "homepage": "https://octaui.com/",
+  "homepage": "https://seifradwane.com/",
   "repository": {
-    "url": "https://github.com/seifeldinio/octa-ui"
+    "url": "https://github.com/seifeldinio/paymob-react"
   },
   "scripts": {
     "dev": "vite",
@@ -28,15 +28,23 @@
     "preview": "vite preview"
   },
   "keywords": [
-    "UI library",
-    "Components",
-    "Design"
+    "Paymob react",
+    "Paymob",
+    "Payment",
+    "Payment integration",
+    "Online payments",
+    "Payment gateway",
+    "E-commerce payments",
+    "Payment API"
   ],
   "author": "seifradwane",
   "license": "MIT",
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
+  },
+  "peerDependencies": {
+    "react": "^18.2.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.15",
@@ -47,6 +55,7 @@
     "eslint": "^8.45.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.3",
+    "path": "^0.12.7",
     "typescript": "^5.0.2",
     "vite": "^4.4.5",
     "vite-plugin-dts": "^3.9.1",

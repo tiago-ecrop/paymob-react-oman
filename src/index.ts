@@ -1,2 +1,1 @@
-export * from "./card-payment";
-export * from "./wallet-payment";
+export * from "./hooks";
