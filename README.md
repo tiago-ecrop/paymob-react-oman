@@ -76,7 +76,7 @@ import { startWalletProcess } from "paymob-react";
 // Define payment details
 const paymentDetails = {
   amount: 100, // Example amount
-  currency: "USD",
+  currency: "EGP",
   name: "Product Name",
   description: "Description of the product",
   quantity: "1",
