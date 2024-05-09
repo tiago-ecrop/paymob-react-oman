@@ -1,6 +1,7 @@
 <!-- markdownlint-disable-next-line -->
 <p align="center">
-  <a href="https://seifradwane.com/" rel="noopener" target="_blank"><img  src="https://media.publit.io/file/paymob-logo.webp" alt="Paymob Logo"></a>
+  <a href="https://seifradwane.com/" rel="noopener" target="_blank"><img 
+  width='280' src="https://media.publit.io/file/paymob-logo.webp" alt="Paymob Logo"></a>
 </p>
 
 <p align="center">
