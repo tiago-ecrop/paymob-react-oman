@@ -1,27 +1,131 @@
-# React + TypeScript + Vite
+<!-- markdownlint-disable-next-line -->
+<p align="center">
+  <a href="https://seifradwane.com/" rel="noopener" target="_blank"><img  src="https://media.publit.io/file/paymob-logo.webp" alt="Paymob Logo"></a>
+</p>
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<p align="center">
+  <img src="https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=react&logoColor=black" alt="React">
+  <img src="https://img.shields.io/badge/TypeScript-3178C6?style=flat-square&logo=typescript&logoColor=white" alt="TypeScript">
+  <img src="https://img.shields.io/badge/License-MIT-blue.svg?style=flat-square" alt="License">
+</p>
 
-Currently, two official plugins are available:
+Paymob React 💳 is a package designed to simplify online payment integration with Paymob services in React applications. This package provides easy-to-use functions for starting card and wallet payment processes.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Installation 🔨
 
-## Expanding the ESLint configuration
+To install Paymob React, use npm or yarn:
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
+```bash
+npm install paymob-react
+# or
+yarn add paymob-react
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Usage
+
+### Card Payment 💳
+
+```typescript
+import { startCardProcess } from "paymob-react";
+
+// Define payment details
+const paymentDetails = {
+  amount: 100, // Example amount
+  currency: "EGP",
+  name: "Product Name",
+  description: "Description of the product",
+  quantity: "1",
+  firstName: "John",
+  lastName: "Doe",
+  email: "john.doe@example.com",
+  phoneNumber: "+1234567890",
+  extraDescription: "Extra description",
+  city: "City",
+  floor: "Floor",
+  building: "Building",
+  postalCode: "12345",
+  paymobApiKey: "your_paymob_api_key",
+  cardIntegrationId: "your_card_integration_id",
+  iframeId: "your_iframe_id",
+  address: {
+    // Address object
+    street: "123 Main St",
+    city: "City",
+    state: "State",
+    country: "Country",
+    postalCode: "12345",
+  },
+};
+
+// Start card payment process
+startCardProcess(paymentDetails)
+  .then(() => {
+    console.log("Card payment process started successfully.");
+  })
+  .catch((error) => {
+    console.error("Error starting card payment process:", error);
+  });
+```
+
+### Wallet Payment 💸
+
+```typescript
+import { startWalletProcess } from "paymob-react";
+
+// Define payment details
+const paymentDetails = {
+  amount: 100, // Example amount
+  currency: "USD",
+  name: "Product Name",
+  description: "Description of the product",
+  quantity: "1",
+  firstName: "John",
+  lastName: "Doe",
+  email: "john.doe@example.com",
+  phoneNumber: "+1234567890",
+  extraDescription: "Extra description",
+  city: "City",
+  floor: "Floor",
+  building: "Building",
+  postalCode: "12345",
+  paymobApiKey: "your_paymob_api_key",
+  cardIntegrationId: "your_card_integration_id",
+  iframeId: "your_iframe_id",
+  address: {
+    // Address object
+    street: "123 Main St",
+    city: "City",
+    state: "State",
+    country: "Country",
+    postalCode: "12345",
+  },
+  mobileNumber: "your_mobile_number",
+};
+
+// Start wallet payment process
+startWalletProcess(paymentDetails)
+  .then(() => {
+    console.log("Wallet payment process started successfully.");
+  })
+  .catch((error) => {
+    console.error("Error starting wallet payment process:", error);
+  });
+```
+
+## How to Contribute 🤝
+
+Contributions to Paymob React are welcome! Here's how you can contribute:
+
+1. Fork the repository.
+2. Create a new branch for your feature or bug fix.
+3. Make your changes and commit them.
+4. Push your changes to your fork.
+5. Submit a pull request to the main repository.
+
+## License ⚖️
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Support
+
+For any questions or issues, please [open an issue](https://github.com/seifeldinio/paymob-react/issues) on GitHub.
