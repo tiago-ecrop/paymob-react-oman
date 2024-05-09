@@ -12,7 +12,7 @@ export const getAuthToken = async (paymobApiKey: string): Promise<string> => {
     return data.token;
   } catch (error) {
     console.error("Error getting auth token:", error);
-    throw error;
+    throw new Error("Failed to obtain authentication token");
   }
 };
 
@@ -25,7 +25,6 @@ export const createOrder = async ({
   quantity,
   email,
   phoneNumber,
-  extraDescription,
   address,
 }: {
   token: string;
@@ -36,16 +35,14 @@ export const createOrder = async ({
   quantity: string;
   email: string;
   phoneNumber: string;
-  extraDescription: string;
   address: Address;
-}): Promise<string> => {
+}): Promise<number> => {
   try {
     const data = {
       auth_token: token,
       delivery_needed: "false",
       amount_cents: (amount * 100).toString(),
       currency: currency,
-      merchant_order_id: Math.random().toString(36).substring(7),
       items: [
         {
           name: name,
@@ -55,20 +52,10 @@ export const createOrder = async ({
         },
       ],
       shipping_data: {
+        // Correct structure for shipping_data
         ...address,
         email: email,
         phone_number: phoneNumber,
-        extra_description: extraDescription,
-      },
-      shipping_details: {
-        notes: "test",
-        number_of_packages: 1,
-        weight: 1,
-        weight_unit: "Kilogram",
-        length: 1,
-        width: 1,
-        height: 1,
-        contents: "product of some sorts",
       },
     };
 
@@ -85,7 +72,7 @@ export const createOrder = async ({
     return responseData.id;
   } catch (error) {
     console.error("Error creating order:", error);
-    throw error;
+    throw new Error("Failed to create order");
   }
 };
 
@@ -101,7 +88,7 @@ export const getFinalToken = async ({
   city,
 }: {
   token: string;
-  orderId: string;
+  orderId: number;
   amount: number;
   currency: string;
   email: string;
@@ -115,17 +102,20 @@ export const getFinalToken = async ({
       auth_token: token,
       amount_cents: (amount * 100).toString(),
       expiration: 3600,
-      order_id: orderId,
+      order_id: orderId.toString(),
       billing_data: {
+        // Correct structure for billing_data
         ...address,
         email: email,
         phone_number: phoneNumber,
-        shipping_method: "PKG", // Assuming this is a default value
-        city: city, // Add city to billing_data
+        shipping_method: "PKG",
+        city: city,
+        country: "CR", // Assuming this is required, as per the API example
+        state: "Utah", // Assuming this is required, as per the API example
       },
       currency: currency,
       integration_id: cardIntegrationId,
-      lock_order_when_paid: "false", // This property indicates whether to lock the order when paid
+      lock_order_when_paid: "false",
     };
 
     const response = await fetch(
@@ -141,6 +131,6 @@ export const getFinalToken = async ({
     return responseData.token;
   } catch (error) {
     console.error("Error getting final token:", error);
-    throw error;
+    throw new Error("Failed to obtain final token");
   }
 };

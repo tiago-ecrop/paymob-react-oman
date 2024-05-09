@@ -11,73 +11,57 @@ export const startCardProcess = async ({
   name,
   description,
   quantity,
-  email,
-  phoneNumber,
-  extraDescription,
-  city,
-  // floor,
-  // building,
-  // postalCode,
+  email, // Include email in function parameters
+  phoneNumber, // Include phoneNumber in function parameters
+  address,
   paymobApiKey,
   cardIntegrationId,
   iframeId,
-  address,
+  city,
 }: {
   amount: number;
   currency: string;
   name: string;
   description: string;
   quantity: string;
-  email: string;
-  phoneNumber: string;
-  extraDescription: string;
-  city: string;
-  floor: string;
-  building: string;
-  postalCode: string;
+  email: string; // Define type for email
+  phoneNumber: string; // Define type for phoneNumber
+  address: Address;
   paymobApiKey: string;
   cardIntegrationId: string;
   iframeId: string;
-  address: Address;
+  city: string;
 }): Promise<void> => {
   try {
     const token = await getAuthToken(paymobApiKey);
+    const orderId = await createOrder({
+      token,
+      amount,
+      currency,
+      name,
+      description,
+      quantity,
+      email, // Pass email to createOrder
+      phoneNumber, // Pass phoneNumber to createOrder
+      address,
+    });
 
-    if (token) {
-      const orderId = await createOrder({
-        token,
-        amount,
-        currency,
-        name,
-        description,
-        quantity,
-        email,
-        phoneNumber,
-        extraDescription,
-        address, // Pass the address object directly
-      });
+    const finalToken = await getFinalToken({
+      token,
+      orderId,
+      amount,
+      currency,
+      email,
+      phoneNumber,
+      cardIntegrationId,
+      address,
+      city,
+    });
 
-      if (orderId) {
-        const finalToken = await getFinalToken({
-          token,
-          orderId,
-          amount,
-          currency,
-          email,
-          phoneNumber,
-          cardIntegrationId,
-          address, // Pass the address object directly
-          city, // Include the city parameter
-        });
-
-        if (finalToken) {
-          cardPayment(iframeId, finalToken);
-        }
-      }
-    }
+    cardPayment(iframeId, finalToken);
   } catch (error) {
     console.error("Error starting card payment process:", error);
-    throw error;
+    throw new Error("Failed to start card payment process");
   }
 };
 
@@ -90,6 +74,6 @@ export const cardPayment = async (
     window.location.href = iframeURL;
   } catch (error) {
     console.error("Error redirecting to card payment:", error);
-    throw error;
+    throw new Error("Failed to redirect to card payment");
   }
 };

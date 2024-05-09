@@ -3,7 +3,6 @@ export interface Address {
   floor: string;
   street: string;
   building: string;
-  shipping_method: string;
   postal_code: string;
   city: string;
   country: string;
