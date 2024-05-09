@@ -27,90 +27,123 @@ yarn add paymob-react
 ### Card Payment 💳
 
 ```typescript
-import { startCardProcess } from "paymob-react";
+import React from "react";
+import { startCardProcess } from "paymob-react"; // Import the startCardProcess function
 
-// Define payment details
-const paymentDetails = {
-  amount: 100, // Example amount
-  currency: "EGP",
-  name: "Product Name",
-  description: "Description of the product",
-  quantity: "1",
-  firstName: "John",
-  lastName: "Doe",
-  email: "john.doe@example.com",
-  phoneNumber: "+1234567890",
-  extraDescription: "Extra description",
-  city: "City",
-  floor: "Floor",
-  building: "Building",
-  postalCode: "12345",
-  paymobApiKey: "your_paymob_api_key",
-  cardIntegrationId: "your_card_integration_id",
-  iframeId: "your_iframe_id",
-  address: {
-    // Address object
-    street: "123 Main St",
-    city: "City",
-    state: "State",
-    country: "Country",
-    postalCode: "12345",
-  },
-};
+function CardPaymentExample() {
+  // Define payment details for card payment
+  const paymentDetails = {
+    amount: 1000, // Replace with the amount in your currency (e.g., 1000 for 10.00 EGP)
+    currency: "EGP", // Replace with your currency code (e.g., "EGP" for Egyptian Pound)
+    courseTitle: "Product Name", // Replace with the name of your product or course
+    courseDescription: "Description of the product", // Replace with the description of your product or course
+    firstName: "John", // Replace with the first name of the customer
+    lastName: "Doe", // Replace with the last name of the customer
+    email: "john.doe@example.com", // Replace with the email address of the customer
+    phoneNumber: "+1234567890", // Replace with the phone number of the customer (including country code)
+    userId: 123456, // Replace with a unique identifier for the customer (e.g., user ID)
+    courseId: 789012, // Replace with a unique identifier for the course or product
+    paymobApiKey: "your_paymob_api_key", // Replace with your Paymob API key
+    cardIntegrationId: 1984360, // Replace with the ID of your card integration
+    iframeId: 369734, // Replace with the ID of your iframe
+  };
 
-// Start card payment process
-startCardProcess(paymentDetails)
-  .then(() => {
-    console.log("Card payment process started successfully.");
-  })
-  .catch((error) => {
-    console.error("Error starting card payment process:", error);
-  });
+  // Function to handle card payment
+  const handleCardPayment = async () => {
+    try {
+      // Start the card payment process
+      await startCardProcess(
+        paymentDetails.amount,
+        paymentDetails.currency,
+        paymentDetails.courseTitle,
+        paymentDetails.courseDescription,
+        paymentDetails.firstName,
+        paymentDetails.lastName,
+        paymentDetails.email,
+        paymentDetails.phoneNumber,
+        paymentDetails.userId,
+        paymentDetails.courseId,
+        paymentDetails.paymobApiKey,
+        paymentDetails.cardIntegrationId,
+        paymentDetails.iframeId
+      );
+      console.log("Card payment process started successfully.");
+    } catch (error) {
+      console.error("Error starting card payment process:", error);
+    }
+  };
+
+  return (
+    <div>
+      <h1>Card Payment Example</h1>
+      <button onClick={handleCardPayment}>Start Card Payment</button>
+    </div>
+  );
+}
+
+export default CardPaymentExample;
 ```
 
 ### Wallet Payment 💸
 
 ```typescript
-import { startWalletProcess } from "paymob-react";
+import React from "react";
+import { startWalletProcess } from "paymob-react"; // Import the startWalletProcess function
 
-// Define payment details
-const paymentDetails = {
-  amount: 100, // Example amount
-  currency: "EGP",
-  name: "Product Name",
-  description: "Description of the product",
-  quantity: "1",
-  firstName: "John",
-  lastName: "Doe",
-  email: "john.doe@example.com",
-  phoneNumber: "+1234567890",
-  extraDescription: "Extra description",
-  city: "City",
-  floor: "Floor",
-  building: "Building",
-  postalCode: "12345",
-  paymobApiKey: "your_paymob_api_key",
-  cardIntegrationId: "your_card_integration_id",
-  iframeId: "your_iframe_id",
-  address: {
-    // Address object
-    street: "123 Main St",
-    city: "City",
-    state: "State",
-    country: "Country",
-    postalCode: "12345",
-  },
-  mobileNumber: "your_mobile_number",
-};
+function WalletPaymentExample() {
+  // Define payment details for wallet payment
+  const walletPaymentDetails = {
+    amount: 1000, // Replace with the amount in your currency (e.g., 1000 for 10.00 EGP)
+    currency: "EGP", // Replace with your currency code (e.g., "EGP" for Egyptian Pound)
+    courseTitle: "Product Name", // Replace with the name of your product or course
+    courseDescription: "Description of the product", // Replace with the description of your product or course
+    firstName: "John", // Replace with the first name of the customer
+    lastName: "Doe", // Replace with the last name of the customer
+    email: "john.doe@example.com", // Replace with the email address of the customer
+    phoneNumber: "+1234567890", // Replace with the phone number of the customer (including country code)
+    userId: 123456, // Replace with a unique identifier for the customer (e.g., user ID)
+    courseId: 789012, // Replace with a unique identifier for the course or product
+    paymobApiKey: "your_paymob_api_key", // Replace with your Paymob API key
+    walletIntegrationId: 1996357, // Replace with the ID of your wallet integration
+    iframeId: 369734, // Replace with the ID of your iframe
+    mobileNumber: "01010101010", // Replace with the mobile number associated with the wallet
+  };
 
-// Start wallet payment process
-startWalletProcess(paymentDetails)
-  .then(() => {
-    console.log("Wallet payment process started successfully.");
-  })
-  .catch((error) => {
-    console.error("Error starting wallet payment process:", error);
-  });
+  // Function to handle wallet payment
+  const handleWalletPayment = async () => {
+    try {
+      // Start the wallet payment process
+      await startWalletProcess(
+        walletPaymentDetails.amount,
+        walletPaymentDetails.currency,
+        walletPaymentDetails.courseTitle,
+        walletPaymentDetails.courseDescription,
+        walletPaymentDetails.firstName,
+        walletPaymentDetails.lastName,
+        walletPaymentDetails.email,
+        walletPaymentDetails.phoneNumber,
+        walletPaymentDetails.userId,
+        walletPaymentDetails.courseId,
+        walletPaymentDetails.paymobApiKey,
+        walletPaymentDetails.walletIntegrationId,
+        walletPaymentDetails.iframeId,
+        walletPaymentDetails.mobileNumber
+      );
+      console.log("Wallet payment process started successfully.");
+    } catch (error) {
+      console.error("Error starting wallet payment process:", error);
+    }
+  };
+
+  return (
+    <div>
+      <h1>Wallet Payment Example</h1>
+      <button onClick={handleWalletPayment}>Start Wallet Payment</button>
+    </div>
+  );
+}
+
+export default WalletPaymentExample;
 ```
 
 ## How to Contribute 🤝
